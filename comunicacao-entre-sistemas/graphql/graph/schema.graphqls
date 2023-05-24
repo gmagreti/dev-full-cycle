@@ -1,6 +1,6 @@
 type Category {
   id: ID!
-  naame: String!
+  name: String!
   description: String
   courses: [Course!]!
 }
