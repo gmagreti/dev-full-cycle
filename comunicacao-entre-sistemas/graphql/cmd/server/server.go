@@ -9,7 +9,6 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gmagreti/dev-full-cycle/comunicacao-entre-sistemas/graphql/graph"
-	"github.com/gmagreti/dev-full-cycle/comunicacao-entre-sistemas/graphql/graph/generated"
 	"github.com/gmagreti/dev-full-cycle/comunicacao-entre-sistemas/graphql/internal/database"
 	_ "github.com/mattn/go-sqlite3"
 )
