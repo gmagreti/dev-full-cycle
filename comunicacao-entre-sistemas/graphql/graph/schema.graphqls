@@ -7,7 +7,7 @@ type Category {
 
 type Course {
   id: ID!
-  name: String!
+  name : String!
   description: String
   category: Category!
 }
@@ -32,4 +32,3 @@ type Mutation {
   createCategory(input: NewCategory!): Category!
   createCourse(input: NewCourse!): Course!
 }
-
