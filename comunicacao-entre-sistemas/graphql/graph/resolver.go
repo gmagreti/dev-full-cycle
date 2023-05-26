@@ -8,4 +8,5 @@ import "github.com/gmagreti/dev-full-cycle/comunicacao-entre-sistemas/graphql/in
 
 type Resolver struct{
 	CategoryDB *database.Category
+	CourseDB *database.Course
 }
