@@ -6,9 +6,25 @@ package graph
 
 import (
 	"context"
-
 	"github.com/gmagreti/dev-full-cycle/comunicacao-entre-sistemas/graphql/graph/model"
 )
+
+// Courses is the resolver for the courses field.
+func (r *categoryResolver) Courses(ctx context.Context, obj *model.Category) ([]*model.Course, error) {
+	courses, err := r.CourseDB.FindByCategoryID(obj.ID)
+	if err != nil {
+		return nil, err
+	}
+	var coursesModel []*model.Course
+	for _, course := range courses {
+		coursesModel = append(coursesModel, &model.Course{
+			ID:          course.ID,
+			Name:        course.Name,
+			Description: &course.Description,
+		})
+	}
+	return coursesModel, nil
+}
 
 // CreateCategory is the resolver for the createCategory field.
 func (r *mutationResolver) CreateCategory(ctx context.Context, input model.NewCategory) (*model.Category, error) {
@@ -19,8 +35,8 @@ func (r *mutationResolver) CreateCategory(ctx context.Context, input model.NewCa
 	}
 
 	return &model.Category{
-		ID: 				 category.ID,
-		Name: 			 category.Name,
+		ID:          category.ID,
+		Name:        category.Name,
 		Description: &category.Description,
 	}, nil
 }
@@ -57,7 +73,6 @@ func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, erro
 	return categoriesModel, nil
 }
 
-
 // Courses is the resolver for the courses field.
 func (r *queryResolver) Courses(ctx context.Context) ([]*model.Course, error) {
 	courses, err := r.CourseDB.FindAll()
@@ -75,11 +90,15 @@ func (r *queryResolver) Courses(ctx context.Context) ([]*model.Course, error) {
 	return coursesModel, nil
 }
 
+// Category returns CategoryResolver implementation.
+func (r *Resolver) Category() CategoryResolver { return &categoryResolver{r} }
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+type categoryResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
