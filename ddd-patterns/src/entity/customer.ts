@@ -2,6 +2,7 @@
 // Regras de negocio - formas de mudar o comportamento da entidade aplicando validacoes, formulas, qualquer coisa que satisfaça oque o software está pedindo.
 // Entidade sempre vai representar o estado correto e atual daquele elemento
 // Deve estar sempre concistente
+// Uma entidade por padrao, ela sempre tem que se autovalidar
 
 class Customer {
 
@@ -15,6 +16,24 @@ class Customer {
     this._name = name;
     this._address = address;
     this._active = active;
+  }
+
+  validate() {
+    if (this._id.length === 0) {
+      throw new Error('_id is required')
+    }
+
+    if (this._name.length === 0) {
+      throw new Error('_name is required')
+    }
+
+    if (this._address.length === 0) {
+      throw new Error('_address is required')
+    }
+
+    if (!this._active) {
+      throw new Error('_active is required')
+    }
   }
 
   changeName(name: string) {
