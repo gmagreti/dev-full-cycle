@@ -4,6 +4,11 @@
 // Deve estar sempre concistente
 // Uma entidade por padrao, ela sempre tem que se autovalidar
 
+// Entidade de negocio e Entidade para Persistencia
+
+// Entidade de negocio - Contexto para atender o negocio
+// Entidade do ORM - Contexto para guardar dados
+
 class Customer {
 
   _id: string;
