@@ -11,17 +11,17 @@ import Address from "./address";
 // Entidade de negocio - Contexto para atender o negocio
 // Entidade do ORM - Contexto para guardar dados
 
-class Customer {
+export class Customer {
 
   _id: string;
   _name: string;
   _address!: Address;
-  _active: boolean;
+  _active: boolean = false;
 
-  constructor(id: string, name: string, address: string, active: boolean) {
+  constructor(id: string, name: string) {
     this._id = id;
     this._name = name;
-    this._active = active;
+    this.validate()
   }
 
   validate() {
