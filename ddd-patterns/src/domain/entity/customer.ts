@@ -45,6 +45,14 @@ export class Customer {
     this._name = name;
   }
 
+  changeAddress(address: Address) {
+    this._address = address;
+  }
+
+  get Address(): Address {
+    return this._address;
+  }
+
   isActive(): boolean { return this._active; }
 
   activate() {
@@ -65,28 +73,4 @@ export class Customer {
   set Address(address: Address) {
     this._address = address;
   }
-
-  // get id(): string {
-  //   return this._id;
-  // }
-
-  // get name(): string {
-  //   return this._name
-  // }
-
-  // get address(): string {
-  //   return this._address;
-  // }
-
-  // set id(id: string) {
-  //   this._id = id
-  // }
-
-  // set name(_name: string) {
-  //   this._name = _name
-  // }
-
-  // set address(_address: string) {
-  //   this._address = _address
-  // }
 }

@@ -6,7 +6,7 @@
     },
     "transform": {
       "legacyDecorator": true,
-      "decoratorMetaData": true
+      "decoratorMetadata": true
     }
   }
 }
