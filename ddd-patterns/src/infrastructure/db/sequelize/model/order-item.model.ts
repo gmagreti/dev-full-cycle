@@ -18,7 +18,7 @@ export default class OrderItemModel extends Model {
   @Column
   declare id: string;
 
-  @ForeignKey(() => ProductModel)
+  @ForeignKey(() => ProductModel) // Faz o relacionamento apenas do "ID"
   @Column({ allowNull: false })
   declare product_id: string;
 
@@ -35,7 +35,7 @@ export default class OrderItemModel extends Model {
   declare quantity: number;
 
   @Column({ allowNull: false })
-  declare name: number;
+  declare name: string;
 
   @Column({ allowNull: false })
   declare price: number;

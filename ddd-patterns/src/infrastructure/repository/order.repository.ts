@@ -1,10 +1,12 @@
 import Order from "../../domain/entity/order";
+import OrderItem from "../../domain/entity/order_item";
 import OrderRepositoryInterface from "../../domain/repository/order-repository.interface";
 import OrderItemModel from "../db/sequelize/model/order-item.model";
 import OrderModel from "../db/sequelize/model/order.model";
 
 export default class OrderRepository implements OrderRepositoryInterface {
   async create(entity: Order): Promise<void> {
+    console.log(entity)
     await OrderModel.create({
       id: entity.id,
       customer_id: entity.customerId,
@@ -21,13 +23,78 @@ export default class OrderRepository implements OrderRepositoryInterface {
     });
   }
 
-  update(entity: Order): Promise<void> {
-    throw new Error("Method not implemented.");
+  async update(entity: Order): Promise<void> {
+    await OrderModel.update({
+      customer_id: entity.customerId,
+      total: entity.total(),
+    }, {
+      where: { id: entity.id }
+    });
+
+    for (const item of entity.items) {
+      await OrderItemModel.update({
+        name: item.name,
+        price: item.price,
+        product_id: item.productId,
+        quantity: item.quantity,
+      }, {
+        where: { id: item.id }
+      });
+    }
   }
-  find(id: string): Promise<Order> {
-    throw new Error("Method not implemented.");
+
+
+  async find(id: string): Promise<Order> {
+    let orderModel;
+    try {
+      orderModel = await OrderModel.findOne({
+        where: {
+          id,
+        },
+        include: [
+          "items",
+        ],
+        rejectOnEmpty: true,
+      });
+    } catch (error) {
+      throw new Error("Order not found");
+    }
+
+    const order = new Order(
+      orderModel.id,
+      orderModel.customer_id,
+      orderModel.items.map((item) => new OrderItem(
+        item.id,
+        item.name,
+        item.price,
+        item.product_id,
+        item.quantity,
+      )),
+    );
+    return order;
   }
-  findAll(): Promise<Order[]> {
-    throw new Error("Method not implemented.");
+
+  async findAll(): Promise<Order[]> {
+    const orderModels = await OrderModel.findAll({
+      include: [
+        "items",
+      ],
+    });
+
+    const orders = orderModels.map((orderModel) => {
+      return new Order(
+        orderModel.id,
+        orderModel.customer_id,
+        orderModel.items.map((item) => new OrderItem(
+          item.id,
+          item.name,
+          item.price,
+          item.product_id,
+          item.quantity,
+        )),
+      );
+    });
+
+    return orders;
   }
 }
